@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mobil Berjalan</title>
+    <style>
+        /* Mengatur latar belakang halaman */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0a0a0a; /* Latar belakang hitam gelap (seperti malam) */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Menambahkan langit malam dengan bintang yang berkedip */
+        .bintang {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .bintang span {
+            position: absolute;
+            border-radius: 50%;
+            background-color: white;
+            opacity: 0.8;
+            animation: kedip 1.5s infinite alternate;
+        }
+
+        /* Efek bintang berkedip */
+        @keyframes kedip {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Bulan */
+        .bulan {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 150px;
+            height: 150px;
+            background-color: #f1f1f1; /* Warna bulan terang */
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            opacity: 0.7;
+            animation: bulanGlow 3s ease-in-out infinite alternate;
+        }
+
+        /* Animasi bulan yang bercahaya */
+        @keyframes bulanGlow {
+            0% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
+            100% { box-shadow: 0 0 70px rgba(255, 255, 255, 0.9); }
+        }
+
+        /* Desain mobil yang lebih keren */
+        .mobil {
+            position: absolute;
+            bottom: 50px;
+            width: 250px;
+            height: 90px;
+            background-color: #ff3b30; /* Warna mobil merah */
+            border-radius: 25px;
+            border: 4px solid #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); /* Memberikan bayangan pada mobil */
+            display: flex;
+            justify-content: space-between; /* Menata ban */
+            align-items: center;
+            padding: 0 20px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Atap dan kaca depan mobil */
+        .atap-mobil {
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            width: 210px;
+            height: 30px;
+            background-color: #fff;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .kaca-depan {
+            position: absolute;
+            top: 10px;
+            left: 40px;
+            width: 180px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+        }
+
+        /* Lampu depan mobil */
+        .lampu-depan {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 20px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            opacity: 0; /* Lampu dimatikan saat mobil berhenti */
+            transition: opacity 0.5s ease-in-out; /* Efek perubahan opacity */
+        }
+
+        .lampu-depan.kanan {
+            left: 210px;
+        }
+
+        /* Ban mobil */
+        .ban {
+            width: 45px;
+            height: 45px;
+            background-color: #333; /* Warna hitam untuk ban */
+            border-radius: 50%;
+            position: absolute;
+            bottom: -25px; /* Menempatkan ban sedikit di bawah mobil */
+            animation: putarBan 1s linear infinite;
+        }
+
+        .ban.kiri {
+            left: 25px;
+        }
+
+        .ban.kanan {
+            right: 25px;
+        }
+
+        /* Animasi putar ban */
+        @keyframes putarBan {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Jalan untuk mobil */
+        .jalan {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background-color: #444; /* Warna jalan abu-abu gelap */
+            border-top: 5px solid #333; /* Batas jalan */
+        }
+
+        /* Tombol untuk kontrol mobil */
+        .controls {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <!-- Elemen untuk langit malam dengan banyak bintang -->
+    <div class="bintang">
+        <!-- Bintang lebih banyak dengan ukuran dan posisi acak -->
+        <span style="top: 20px; left: 30px; width: 5px; height: 5px;"></span>
+        <span style="top: 80px; left: 150px; width: 3px; height: 3px;"></span>
+        <span style="top: 100px; left: 200px; width: 6px; height: 6px;"></span>
+        <span style="top: 150px; left: 400px; width: 4px; height: 4px;"></span>
+        <span style="top: 200px; left: 500px; width: 7px; height: 7px;"></span>
+        <span style="top: 250px; left: 600px; width: 3px; height: 3px;"></span>
+        <span style="top: 300px; left: 700px; width: 5px; height: 5px;"></span>
+        <span style="top: 350px; left: 800px; width: 4px; height: 4px;"></span>
+        <span style="top: 500px; left: 900px; width: 6px; height: 6px;"></span>
+        <span style="top: 600px; left: 950px; width: 8px; height: 8px;"></span>
+        <!-- Tambahkan lebih banyak bintang jika diinginkan -->
+    </div>
+
+    <!-- Bulan -->
+    <div class="bulan"></div>
+
+    <!-- Elemen jalan -->
+    <div class="jalan"></div>
+
+    <!-- Mobil dengan ban -->
+    <div class="mobil">
+        <!-- Atap dan kaca depan -->
+        <div class="atap-mobil"></div>
+        <div class="kaca-depan"></div>
+
+        <!-- Lampu depan -->
+        <div class="lampu-depan"></div>
+        <div class="lampu-depan kanan"></div>
+
+        <!-- Ban mobil -->
+        <div class="ban kiri"></div>
+        <div class="ban kanan"></div>
+    </div>
+
+    <!-- Kontrol untuk tombol -->
+    <div class="controls">
+        <button id="startButton">Jalankan</button>
+        <button id="stopButton">Berhentikan</button>
+    </div>
+
+    <script>
+        // Ambil elemen mobil dan tombol kontrol
+        const mobil = document.querySelector('.mobil');
+        const lampuKiri = document.querySelector('.lampu-depan');
+        const lampuKanan = document.querySelector('.lampu-depan.kanan');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+
+        // Variabel untuk posisi horizontal mobil dan kontrol pergerakan
+        let posisiX = -250;
+        let isMoving = false; // Status pergerakan mobil
+        let interval;
+
+        // Fungsi untuk menggerakkan mobil
+        function gerakkanMobil() {
+            // Ubah posisi horizontal mobil
+            posisiX += 5;
+
+            // Jika mobil sudah melewati batas layar, reset ke posisi awal
+            if (posisiX > window.innerWidth) {
+                posisiX = -250; // Reset ke kiri layar
+            }
+
+            // Update posisi mobil
+            mobil.style.left = posisiX + 'px';
+
+            // Menyalakan lampu saat mobil bergerak
+            lampuKiri.style.opacity = 1;
+            lampuKanan.style.opacity = 1;
+        }
+
+        // Fungsi untuk memulai pergerakan mobil
+        function startMobil() {
+            if (!isMoving) {
+                isMoving = true;
+                interval = setInterval(gerakkanMobil, 20); // Gerakkan mobil setiap 16ms
+            }
+        }
+
+        // Fungsi untuk menghentikan pergerakan mobil
+        function stopMobil() {
+            if (isMoving) {
+                isMoving = false;
+                clearInterval(interval); // Hentikan pergerakan mobil
+
+                // Matikan lampu saat mobil berhenti
+                lampuKiri.style.opacity = 0;
+                lampuKanan.style.opacity = 0;
+            }
+        }
+
+        // Event listener untuk tombol "Jalankan"
+        startButton.addEventListener('click', startMobil);
+
+        // Event listener untuk tombol "Berhentikan"
+        stopButton.addEventListener('click', stopMobil);
+    </script>
+</body>
+</html>
